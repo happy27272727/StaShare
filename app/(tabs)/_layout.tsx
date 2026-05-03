@@ -42,7 +42,13 @@ export default function tablayout() {
       />
       <Tabs.Screen
       name='memo'
-      options={{ tabBarLabel: 'メモ' }}
+      options={{ tabBarLabel: 'メモ',
+        href: null
+      }}
+      />
+      <Tabs.Screen 
+      name='opinion'
+      options={{ tabBarLabel: '要望'}}
       />
     </Tabs>
   );

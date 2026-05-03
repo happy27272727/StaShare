@@ -144,6 +144,8 @@ const styles = StyleSheet.create({
   headerLogo: { fontSize: 22, color: C.accent, fontFamily: "Pacifico" },
   headerBar: {
     height: HEADER_H,
+    justifyContent: 'center',
+    paddingLeft: 16,
   },
   cardHeader: {
     flexDirection: "row",

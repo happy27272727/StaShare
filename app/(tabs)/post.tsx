@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 12,
     fontSize: 16,
+    marginBottom: 10
   },
   label: { fontSize: 14, fontWeight: '600', color: C.textPrimary, marginBottom: 8},
   chipText: { fontSize: 13, color: C.textSecondary },
