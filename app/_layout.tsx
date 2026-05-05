@@ -25,11 +25,12 @@ if (!session && !inAuthGroup) {
   router.replace('/(tabs)');
 }
 }, [session, loading, segments])
+if (loading) return null;
 return(
   <Stack>
     <Stack.Screen name='auth' options={{ headerShown: false}} />
     <Stack.Screen name='(tabs)' options={{ headerShown: false}} />
-    <Stack.Screen name='post/[id]' options={{ title: '記録の詳細', headerBackTitle: '戻る', headerStyle: { backgroundColor: C.headerBrown }, headerTintColor: C.textPrimary }} />
+    <Stack.Screen name='post/[id]' options={{ title: '記録の詳細', headerBackTitle: '戻る', headerStyle: { backgroundColor: C.headerBrown }, headerTintColor: C.textPrimary, contentStyle: { backgroundColor: C.background} }} />
   </Stack>
 )
 }

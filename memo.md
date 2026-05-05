@@ -580,4 +580,30 @@ onPress={() => setSelectedTag(selectedTag === tag ? null : tag)}
 - `.select('id, title, users(nickname)')` → 外部キーが 1 つなら省略可
 - `.select('id, title, users!posts_user_id_fkey(nickname)')` → 外部キーが複数ある場合に使う外部キー名を明示する
 
+## タブを非表示にする方法
+- `Tabs.Screen` の `options` に `href: null` を渡すとタブバーから消える
+- ファイルを削除しなくてもルートを維持したまま非表示にできる
+
+## react-native-reanimated と babel.config.js
+- `react-native-reanimated` はネイティブ（iOS/Android）でビルド時にコード変換が必要
+- プロジェクトルートに `babel.config.js` を作り `plugins: ['react-native-reanimated/plugin']` を追加しないとネイティブでクラッシュする
+- Webはブラウザのエンジンで動くので設定なしでも動いてしまい気づきにくい
+
+## useSafeAreaInsets
+- iPhoneのノッチやホームバーの高さを取得するフック
+- `const insets = useSafeAreaInsets()` で取得し `paddingTop: insets.top` のようにスタイルに使う
+- `StyleSheet.create` の外では使えない（hooks はコンポーネント内でのみ呼べる）のでインラインスタイルで渡す
+
+## keyboardShouldPersistTaps="handled"
+- `ScrollView` のプロパティ
+- タップがボタンなどに処理されなかった場合にキーボードを閉じる
+- これがないと入力欄以外をタップしてもキーボードが閉じない
+
+## TRUNCATE CASCADE
+- 外部キー制約があるテーブルを全削除したいとき `TRUNCATE TABLE users CASCADE;` とすると紐づくテーブル（posts など）も一緒に削除される
+
+## Vercel デプロイの注意点
+- `.env.local` は GitHub にアップされないので Vercel の Settings → Environment Variables で別途設定が必要
+- Expo Router は SPA なので `vercel.json` に `{ "rewrites": [{ "source": "/(.*)", "destination": "/" }] }` を書かないと直接URLアクセス時に真っ白になる
+
 

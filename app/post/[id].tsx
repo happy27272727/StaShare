@@ -53,8 +53,7 @@ export default function PostDatailScreen() {
       // setNickname(p.nickname);
     }
   }
-  // postがnullの場合returnする。
-  if (!post) return;
+
 
   function formatDate(d: string) {
     const dt = new Date(d);
@@ -63,6 +62,8 @@ export default function PostDatailScreen() {
 
   const safeArea = useSafeAreaInsets();
 
+  // postがnullの場合returnする。
+  if (!post) return;
   return (
     <View style={[styles.container, {top: safeArea.top}]}>
       <View>
@@ -78,7 +79,7 @@ export default function PostDatailScreen() {
 
       {post.hashtags?.length > 0 && (
         <View style={styles.hashtagRow}>
-          {post.hashtags.map(tag => <Text style={styles.hashtag}>#{tag}</Text>)}
+          {post.hashtags.map(tag => <Text key={tag} style={styles.hashtag}>#{tag}</Text>)}
         </View>
       )}
     </View>

@@ -103,6 +103,9 @@ export default function HomeScreen() {
             </View>
             <View>
               <Text style={styles.cardtitle}>{item.title}</Text>
+              <Text>{item.hashtags.map( tag => (
+                <Text key={tag} style={styles.cardTagText}>#{tag}</ Text>
+              ))}</Text>
             </View>
           </TouchableOpacity>
         )}
@@ -194,7 +197,8 @@ const styles = StyleSheet.create({
   tagChip: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 16,
     backgroundColor: C.cardBg, borderWidth: 1, borderColor: C.border, marginRight: 6 },
   tagChipSelected: { backgroundColor: C.tagSelected, borderColor: C.tagSelected },
-  tagText: { fontSize: 12, color: C.accent },
+  tagText: { fontSize: 12, color: C.accent,},
+  cardTagText: { fontSize: 12, color: C.accent, marginRight: 5},
   tagTextSelected: { color: C.white, fontWeight: '600' },
   emptyContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingTop: 80 },
 });
