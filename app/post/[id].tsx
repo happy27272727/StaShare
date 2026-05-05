@@ -1,9 +1,10 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, ScrollView,} from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { C } from "@/constants/Colors";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Markdown from "react-native-markdown-display";
 
 type Post = {
   id: string;
@@ -65,7 +66,8 @@ export default function PostDatailScreen() {
   // postがnullの場合returnする。
   if (!post) return;
   return (
-    <View style={[styles.container, {top: safeArea.top}]}>
+    <View style={[styles.container, {paddingTop: safeArea.top}]}>
+      <ScrollView>
       <View>
         <View style={{ flex: 1, marginLeft: 12 }}>
           <Text style={styles.nickname}>{post.users?.nickname}</Text>
@@ -74,7 +76,7 @@ export default function PostDatailScreen() {
       </View>
       <View style={styles.diaryCard}>
         <Text style={styles.title}>{post.title}</Text>
-        <Text style={styles.body}>{post.body}</Text>
+        <Markdown style={Markdownbody}>{post.body}</Markdown>
       </View>
 
       {post.hashtags?.length > 0 && (
@@ -82,10 +84,16 @@ export default function PostDatailScreen() {
           {post.hashtags.map(tag => <Text key={tag} style={styles.hashtag}>#{tag}</Text>)}
         </View>
       )}
+      </ScrollView>
     </View>
   );
 }
 
+const Markdownbody = {
+  body: { color: C.textSecondary, fontSize: 15},
+  code_block: { backgroundColor: C.cardBg, padding: 8, color: C.accent},
+  fence: { backgroundColor: C.cardBg, color: C.accent, padding: 8 },
+}
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: C.background },
   header: { flexDirection: "row", alignItems: "center", marginBottom: 16 },

@@ -7,7 +7,7 @@ export default function tablayout() {
       screenOptions={{
         tabBarActiveTintColor: C.accent,
         tabBarInactiveTintColor: C.textMuted,
-        tabBarStyle: { backgroundColor: C.headerBrown, borderTopColor: C.border },
+        tabBarStyle: { paddingBottom: 10,  backgroundColor: C.headerBrown, borderTopColor: C.border },
         headerStyle: { backgroundColor: C.headerBrown },
         headerTintColor: C.textPrimary,
       }}

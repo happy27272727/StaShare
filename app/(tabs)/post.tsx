@@ -15,6 +15,7 @@ const HASHTAG_SUGGESTIONS = [
   "JAVA",
   "SQL",
   "JS",
+  "資格",
   "失敗",
   "遅延",
   "教訓",
@@ -44,7 +45,7 @@ export default function PostScreen() {
         placeholderTextColor={C.textMuted}
         value={title}
         onChangeText={setTitle}
-        maxLength={20}
+        maxLength={50}
       />
       <TextInput
         style={styles.bodyInput}
