@@ -55,7 +55,7 @@ export default function PostScreen() {
         onChangeText={setBody}
         multiline
         textAlignVertical="top"
-        maxLength={500}
+        maxLength={1000}
       />
       <Text style={styles.label}>ハッシュタグ（複数選択可）</Text>
 
@@ -92,6 +92,7 @@ export default function PostScreen() {
       .from("posts")
       .insert({ user_id: user.id, title: title.trim(), body: body.trim(), hashtags: hashtags});
     if (error) {
+      window.alert('記録失敗:' + error.message);
       return;
     }
     setTitle("");

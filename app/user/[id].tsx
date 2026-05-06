@@ -94,6 +94,7 @@ export default function EditScreen() {
     }).eq('id', id);
 
     if (error) {
+      window.alert('失敗:' + error.message);
       return;
     }
     window.alert('記録を更新しました');
@@ -120,7 +121,7 @@ export default function EditScreen() {
           onChangeText={setBody}
           multiline
           textAlignVertical="top"
-          maxLength={500}
+          maxLength={1000}
         />
         <Text style={styles.label}>ハッシュタグ（複数選択可）</Text>
 

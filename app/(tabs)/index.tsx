@@ -84,6 +84,7 @@ export default function HomeScreen() {
   // }));
 
   const insets = useSafeAreaInsets();
+  const totalH = HEADER_H + insets.top + TAGBAR_H;
 
   return (
     <View style={styles.container}>
@@ -92,7 +93,7 @@ export default function HomeScreen() {
         keyExtractor={item => item.id}
         // refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         contentContainerStyle={posts.length === 0 ? [styles.emptyContainer, {
-          paddingTop: TOTAL_H }] : { paddingTop: TOTAL_H + 8, paddingBottom: 20 }}
+          paddingTop: totalH }] : { paddingTop: totalH + 8, paddingBottom: 20 }}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.card}
@@ -113,8 +114,8 @@ export default function HomeScreen() {
       />
 
       {/* フローティングヘッダー */}
-      <View style={[styles.floatingHeader, { top: insets.top}]}>
-        <View style={styles.headerBar}>
+      <View style={styles.floatingHeader}>
+        <View style={[styles.headerBar, {paddingTop: insets.top}]}>
           <Text style={styles.headerLogo}>StaShare</Text>
         </View>
         <ScrollView
@@ -147,7 +148,6 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: C.background },
   headerLogo: { fontSize: 22, color: C.accent, fontFamily: "Pacifico" },
   headerBar: {
-    height: HEADER_H,
     justifyContent: 'center',
     paddingLeft: 16,
   },

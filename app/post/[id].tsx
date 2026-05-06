@@ -1,4 +1,10 @@
-import { Text, View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
@@ -50,6 +56,22 @@ export default function PostDatailScreen() {
     }
   }
 
+  async function sakuzyo() {
+    const ok = window.confirm('投稿を削除しますか？');
+    if(!ok) return;
+
+      const {error} = await supabase
+      .from('posts')
+      .delete()
+      .eq('id', id);
+
+      if (error) {
+        window.alert('削除失敗:' + error.message );
+        return;
+      }
+      router.push('/');
+  }
+
   function formatDate(d: string) {
     const dt = new Date(d);
     return `${dt.getFullYear()}/${dt.getMonth() + 1}/${dt.getDate()}`;
@@ -67,14 +89,18 @@ export default function PostDatailScreen() {
             <Text style={styles.nickname}>{post.users?.nickname}</Text>
             <Text style={styles.date}>{formatDate(post.created_at)}</Text>
             {currentUserId === post.user_id && (
-              <View>
+              <View style={{flexDirection: 'row', alignSelf: "flex-end",}}>
                 <TouchableOpacity
-                onPress={() => router.push(`/user/${id}`)}
-                style={styles.hensyu}
+                  onPress={() => router.push(`/user/${id}`)}
+                  style={styles.hensyu}
                 >
-                  <Text
-                  style={styles.hensyuButton}
-                  >編集</Text>
+                  <Text style={styles.hensyuButton}>編集</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                style={styles.hensyu}
+                onPress={sakuzyo}
+                >
+                  <Text style={styles.hensyuButton}>削除</Text>
                 </TouchableOpacity>
               </View>
             )}
@@ -108,7 +134,14 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: C.background },
   header: { flexDirection: "row", alignItems: "center", marginBottom: 16 },
   nickname: { fontSize: 14, fontWeight: "600", color: C.textPrimary },
-  hensyu: { borderRadius: 6, borderColor: C.accent, borderWidth: 2, padding: 6, alignSelf: 'flex-end', marginRight: 16},
+  hensyu: {
+    borderRadius: 6,
+    borderColor: C.accent,
+    borderWidth: 2,
+    padding: 6,
+    alignSelf: "flex-end",
+    marginRight: 16,
+  },
   date: { fontSize: 12, color: C.textMuted, marginTop: 2 },
   title: {
     fontSize: 20,
@@ -132,5 +165,5 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   hashtagRow: { flexDirection: "row", flexWrap: "wrap", marginBottom: 20 },
-  hensyuButton: { color: C.accent, textAlign: "right"},
+  hensyuButton: { color: C.accent, textAlign: "right" },
 });
