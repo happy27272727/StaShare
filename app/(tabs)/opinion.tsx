@@ -32,11 +32,11 @@ const {error} = await supabase
     .insert({nickname: userData.nickname, comment: opinion.trim()});
     if (!error) {
       window.alert('あざます');
+      setOpinion('');
     } else {
         window.alert('失敗' + error);
       }
     setLoading(false);
-    setOpinion('');
     }
 
   return (
@@ -61,7 +61,10 @@ const {error} = await supabase
         onPress={() => handlePress(opinion)}
         disabled={loading}
         >
-          <Text style={styles.buttonText}>送信</Text>
+          <Text
+          style={styles.buttonText}
+          disabled={loading}
+          >{loading ? "送信中..." : "送信"}</Text>
         </TouchableOpacity>
       </View>
     </View>

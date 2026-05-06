@@ -77,6 +77,17 @@
   - tennis-note2 の構造を参考にしながら自力で実装
 
 
+コードレビューで見つかった修正箇所
+  - post.tsx：postKiroku の成功パスで setLoading(false) が呼ばれていない
+  - post.tsx：button に disabled={loading} がない（login.tsx では実装済み）
+  - post.tsx：return の後に postKiroku 関数が定義されている（return の前に移動する）
+  - コンポーネント名が PascalCase でない（callRegister / loginScreen / tablayout）
+  - lib/supabase.ts：supabaseAnonKey に ! がない（supabaseUrl にはある）
+  - app/auth/_layout.tsx に index の Screen が登録されているが index.tsx が存在しない
+  - index.tsx：コメントアウトされたコードが多い（不要なら削除）
+  - componets フォルダ名のタイポ（components が正しい）
+  - register.tsx：email の修正済み（useState で初期値固定）、不要になった makeemail 変数とコメントアウトを削除する
+
 ログイン押下後、画面が遷移せずに止まる
 ➡コンソールに色々出ているから確認
 

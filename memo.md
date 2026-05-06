@@ -75,6 +75,16 @@ stateが変わるとreactが勝手に再描画してくれる。
 
 # setするとuseStateが値の変化を検知してReactに再レンダリングの命令を出す。再レンダリングで変数にsetした値が代入される
 
+入力する度にdefault functionの再読み込みが起きる。usestateで定義してる変数は内部で値を保  
+  持しているからsetが無い限り既存の値から変化はしないが、普通の変数で定義してたconst email  
+  = `${makeemail}@example.com`;は毎回実行されて値が変わる。その変数を使ってemailを作ってい  
+  たからusestateでも値が変わり続けていた。
+
+# loadingが必要な処理
+ユーザのアクションから結果が変えるまでの間を防ぐ
+- ボタンのdisabledで連打防止
+- 「登録中」など、ボタン押下後にフリーズしていないように見せる変化
+
 
 # 分割代入
 const { name, age } = user; 

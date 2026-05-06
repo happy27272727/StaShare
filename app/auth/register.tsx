@@ -16,7 +16,7 @@ export default function callRegister() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const makeemail = Math.random().toString(36).substring(2, 8);
-  const email = `${makeemail}@example.com`;
+  const [email] = useState(`${Math.random().toString(36).substring(2, 8)}` + '@example.com');
 
   async function handleRegister() {
     setLoading(true);
@@ -61,7 +61,11 @@ export default function callRegister() {
         onChangeText={setPassword}
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleRegister}>
+      <TouchableOpacity
+      style={styles.button}
+      onPress={handleRegister}
+      disabled={loading}
+      >
         <Text style={styles.buttonText}>{loading ? "登録中..." : "登録する"}</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => router.back()}>

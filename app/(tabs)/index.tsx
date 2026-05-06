@@ -31,6 +31,7 @@ const POPULAR_TAGS = [
   "JAVA",
   "SQL",
   "JS",
+  "TS",
   "資格",
   "失敗",
   "遅延",

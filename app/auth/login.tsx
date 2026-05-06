@@ -68,7 +68,7 @@ export default function loginScreen() {
         onPress={handlelogin}
         disabled={loading}
       >
-        <Text style={styles.buttonText}>ログイン</Text>
+        <Text style={styles.buttonText}>{loading ? "ログイン中..." : "ログイン"}</Text>
       </TouchableOpacity>
       <Link href="/auth/register" asChild>
         <TouchableOpacity>

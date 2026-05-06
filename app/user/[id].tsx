@@ -16,6 +16,7 @@ const HASHTAG_SUGGESTIONS = [
   "JAVA",
   "SQL",
   "JS",
+  "TS",
   "資格",
   "失敗",
   "遅延",
@@ -47,7 +48,6 @@ export default function EditScreen() {
   }, [id]);
 
   async function fecheData() {
-    setLoading(true);
     const { data, error } = await supabase
       .from("posts")
       .select("id, user_id, title, body, hashtags, created_at")
@@ -56,7 +56,6 @@ export default function EditScreen() {
 
     if (!data && error) {
       window.alert("データ取得失敗" + error.message);
-      setLoading(false);
       return;
     }
     // setEditData(data as any);
@@ -78,12 +77,12 @@ export default function EditScreen() {
       window.alert("タイトルと内容を入力");
       return;
     }
-    // setLoading(true);
+    setLoading(true);
     const {
       data: { user },
     } = await supabase.auth.getUser();
     if (!user) {
-      // setLoading(false);
+      setLoading(false);
       return;
     }
     const { error } = await supabase
@@ -95,8 +94,10 @@ export default function EditScreen() {
 
     if (error) {
       window.alert('失敗:' + error.message);
+      setLoading(false);
       return;
     }
+    setLoading(false);
     window.alert('記録を更新しました');
     router.push('/');
   }
@@ -148,8 +149,12 @@ export default function EditScreen() {
             </TouchableOpacity>
           ))}
         </View>
-        <TouchableOpacity style={styles.button} onPress={hozon}>
-          <Text style={styles.kirokuBtnText}>保存する</Text>
+        <TouchableOpacity
+        style={styles.button}
+        onPress={hozon}
+        disabled={loading}
+        >
+          <Text style={styles.kirokuBtnText}>{loading ? "保存中..." : "保存"}</Text>
         </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>

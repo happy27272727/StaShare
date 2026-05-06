@@ -15,6 +15,7 @@ const HASHTAG_SUGGESTIONS = [
   "JAVA",
   "SQL",
   "JS",
+  "TS",
   "資格",
   "失敗",
   "遅延",
@@ -68,8 +69,12 @@ export default function PostScreen() {
           </TouchableOpacity>
         ))}
       </View>
-      <TouchableOpacity style={styles.button} onPress={postKiroku}>
-        <Text style={styles.kirokuBtnText}>記録する</Text>
+      <TouchableOpacity
+      style={styles.button}
+      onPress={postKiroku}
+      disabled={loading}
+      >
+        <Text style={styles.kirokuBtnText}>{loading ? "記録中..." : "記録"}</Text>
       </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -92,12 +97,14 @@ export default function PostScreen() {
       .from("posts")
       .insert({ user_id: user.id, title: title.trim(), body: body.trim(), hashtags: hashtags});
     if (error) {
+      setLoading(false);
       window.alert('記録失敗:' + error.message);
       return;
     }
     setTitle("");
     setBody("");
     setHashtags([]);
+    setLoading(false);
   }
 }
 
