@@ -1,5 +1,5 @@
-import { Text, View, StyleSheet, ScrollView,} from "react-native";
-import { useLocalSearchParams } from "expo-router";
+import { Text, View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { C } from "@/constants/Colors";
@@ -8,6 +8,7 @@ import Markdown from "react-native-markdown-display";
 
 type Post = {
   id: string;
+  user_id: string;
   title: string;
   body: string;
   created_at: string;
@@ -20,9 +21,6 @@ export default function PostDatailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [post, setPost] = useState<Post | null>(null);
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
-  const [nickname, setNickname] = useState("");
 
   // useEffectでもしidに値がある場合、DBから情報を持ってくるcecheAllファンクションを呼ぶ。このuseEffectはidが変化したら発火する
   useEffect(() => {
@@ -41,7 +39,7 @@ export default function PostDatailScreen() {
     // supabaseのpostテーブルからカードのidと一致する人のカラムを取得。usersが
     const { data: postData, error: postError } = await supabase
       .from("posts")
-      .select("id, created_at, hashtags, title, body, users(nickname)")
+      .select("id, user_id, created_at, hashtags, title, body, users(nickname)")
       .eq("id", id)
       .single();
 
@@ -49,12 +47,8 @@ export default function PostDatailScreen() {
     if (!postError && postData) {
       const p = postData as any;
       setPost(p);
-      // setTitle(p.title);
-      // setBody(p.body);
-      // setNickname(p.nickname);
     }
   }
-
 
   function formatDate(d: string) {
     const dt = new Date(d);
@@ -66,43 +60,77 @@ export default function PostDatailScreen() {
   // postがnullの場合returnする。
   if (!post) return;
   return (
-    <View style={[styles.container, {paddingTop: safeArea.top}]}>
+    <View style={[styles.container, { paddingTop: safeArea.top }]}>
       <ScrollView>
-      <View>
-        <View style={{ flex: 1, marginLeft: 12 }}>
-          <Text style={styles.nickname}>{post.users?.nickname}</Text>
-          <Text style={styles.date}>{formatDate(post.created_at)}</Text>
+        <View>
+          <View style={{ flex: 1, marginLeft: 12 }}>
+            <Text style={styles.nickname}>{post.users?.nickname}</Text>
+            <Text style={styles.date}>{formatDate(post.created_at)}</Text>
+            {currentUserId === post.user_id && (
+              <View>
+                <TouchableOpacity
+                onPress={() => router.push(`/user/${id}`)}
+                style={styles.hensyu}
+                >
+                  <Text
+                  style={styles.hensyuButton}
+                  >編集</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
         </View>
-      </View>
-      <View style={styles.diaryCard}>
-        <Text style={styles.title}>{post.title}</Text>
-        <Markdown style={Markdownbody}>{post.body}</Markdown>
-      </View>
+        <View style={styles.diaryCard}>
+          <Text style={styles.title}>{post.title}</Text>
+          <Markdown style={Markdownbody}>{post.body}</Markdown>
+        </View>
 
-      {post.hashtags?.length > 0 && (
-        <View style={styles.hashtagRow}>
-          {post.hashtags.map(tag => <Text key={tag} style={styles.hashtag}>#{tag}</Text>)}
-        </View>
-      )}
+        {post.hashtags?.length > 0 && (
+          <View style={styles.hashtagRow}>
+            {post.hashtags.map((tag) => (
+              <Text key={tag} style={styles.hashtag}>
+                #{tag}
+              </Text>
+            ))}
+          </View>
+        )}
       </ScrollView>
     </View>
   );
 }
 
 const Markdownbody = {
-  body: { color: C.textSecondary, fontSize: 15},
-  code_block: { backgroundColor: C.cardBg, padding: 8, color: C.accent},
+  body: { color: C.textSecondary, fontSize: 15 },
+  code_block: { backgroundColor: C.cardBg, padding: 8, color: C.accent },
   fence: { backgroundColor: C.cardBg, color: C.accent, padding: 8 },
-}
+};
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: C.background },
   header: { flexDirection: "row", alignItems: "center", marginBottom: 16 },
   nickname: { fontSize: 14, fontWeight: "600", color: C.textPrimary },
+  hensyu: { borderRadius: 6, borderColor: C.accent, borderWidth: 2, padding: 6, alignSelf: 'flex-end', marginRight: 16},
   date: { fontSize: 12, color: C.textMuted, marginTop: 2 },
-  title: { fontSize: 20, fontWeight: "bold", color: C.textPrimary, marginBottom: 16 },
-  body: { fontSize: 15, color: C.textSecondary, lineHeight: 26, backgroundColor: C.cardBg, padding: 16, borderRadius: 12 },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: C.textPrimary,
+    marginBottom: 16,
+  },
+  body: {
+    fontSize: 15,
+    color: C.textSecondary,
+    lineHeight: 26,
+    backgroundColor: C.cardBg,
+    padding: 16,
+    borderRadius: 12,
+  },
   diaryCard: { marginBottom: 12 } as any,
-  hashtag: { fontSize: 13, color: C.accentDark, marginRight: 8, marginBottom: 4 },
-  hashtagRow: { flexDirection: 'row', flexWrap: 'wrap', marginBottom: 20 },
-
+  hashtag: {
+    fontSize: 13,
+    color: C.accentDark,
+    marginRight: 8,
+    marginBottom: 4,
+  },
+  hashtagRow: { flexDirection: "row", flexWrap: "wrap", marginBottom: 20 },
+  hensyuButton: { color: C.accent, textAlign: "right"},
 });

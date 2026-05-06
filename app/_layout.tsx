@@ -31,6 +31,7 @@ return(
     <Stack.Screen name='auth' options={{ headerShown: false}} />
     <Stack.Screen name='(tabs)' options={{ headerShown: false}} />
     <Stack.Screen name='post/[id]' options={{ title: '記録の詳細', headerBackTitle: '戻る', headerStyle: { backgroundColor: C.headerBrown }, headerTintColor: C.textPrimary, contentStyle: { backgroundColor: C.background} }} />
+    <Stack.Screen name='user/[id]' options={{ title: '編集', headerBackTitle: '戻る', headerStyle: { backgroundColor: C.headerBrown }, headerTintColor: C.textPrimary, contentStyle: { backgroundColor: C.background} }} />
   </Stack>
 )
 }
