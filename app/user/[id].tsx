@@ -122,7 +122,7 @@ export default function EditScreen() {
           onChangeText={setBody}
           multiline
           textAlignVertical="top"
-          maxLength={1000}
+          maxLength={3000}
         />
         <Text style={styles.label}>ハッシュタグ（複数選択可）</Text>
 
